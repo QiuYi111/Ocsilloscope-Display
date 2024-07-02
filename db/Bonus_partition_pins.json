@@ -1,0 +1,81 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "ASDA_x",
+					"strict" : false
+				},
+				{
+					"name" : "ASDA_y",
+					"strict" : false
+				},
+				{
+					"name" : "EXDATACLK_x",
+					"strict" : false
+				},
+				{
+					"name" : "EXDATACLK_y",
+					"strict" : false
+				},
+				{
+					"name" : "pend_x",
+					"strict" : false
+				},
+				{
+					"name" : "pend_y",
+					"strict" : false
+				},
+				{
+					"name" : "SCL_x",
+					"strict" : false
+				},
+				{
+					"name" : "SCL_y",
+					"strict" : false
+				},
+				{
+					"name" : "SDA_x",
+					"strict" : false
+				},
+				{
+					"name" : "SDA_y",
+					"strict" : false
+				},
+				{
+					"name" : "ACKSDA_x",
+					"strict" : false
+				},
+				{
+					"name" : "rst",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
+					"name" : "ACKSDA_y",
+					"strict" : false
+				},
+				{
+					"name" : "loaddata",
+					"strict" : false
+				},
+				{
+					"name" : "burstmode",
+					"strict" : false
+				},
+				{
+					"name" : "start_x",
+					"strict" : false
+				},
+				{
+					"name" : "start_y",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,46 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity Bonus is
+    port (
+        clk         : in  std_logic;
+        rst         : in  std_logic;
+        start       : in  std_logic;
+        ACKSDA      : in  std_logic;
+        burstmode   : in  std_logic;
+        loaddata    : in  std_logic;
+        ASDA        : out std_logic;
+        EXDATACLK   : out std_logic;
+        pend        : out std_logic;
+        SCL         : out std_logic;
+        SDA         : inout std_logic
+    );
+end entity Bonus;
+
+architecture rtl of Bonus is
+
+    signal SDA_internal: STD_LOGIC;
+
+begin
+
+    -- Instantiate the controller
+    ctrl_inst: entity work.controller
+        port map (
+            clk         => clk,
+            rst         => rst,
+            start       => start,
+            ACKSDA      => ACKSDA,
+            burstmode   => burstmode,
+            loaddata    => loaddata,
+            ASDA        => ASDA,
+            EXDATACLK   => EXDATACLK,
+            pend        => pend,
+            SCL         => SCL,
+            SDA         => SDA_internal
+        );
+
+    -- Bidirectional SDA line handling
+    SDA <= 'Z' when (SDA_internal = '1') else '0';
+
+end architecture rtl;

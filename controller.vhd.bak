@@ -1,0 +1,125 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity controller is
+    port (
+        clk         : in  std_logic;
+        rst         : in  std_logic;
+        start       : in  std_logic;
+        ACKSDA      : in  std_logic;
+        burstmode   : in  std_logic;
+        loaddata    : in  std_logic;
+        ASDA        : out std_logic;
+        EXDATACLK   : out std_logic;
+        pend        : out std_logic;
+        SCL         : out std_logic;
+        SDA         : inout std_logic
+    );
+end entity controller;
+
+architecture behav of controller is
+
+    signal rom_addr_x   : std_logic_vector(3 downto 0) := (others => '0');
+    signal rom_addr_y   : std_logic_vector(3 downto 0) := (others => '0');
+    signal wdata        : std_logic_vector(7 downto 0);
+    signal rdata        : std_logic_vector(7 downto 0);
+    signal inSDA        : std_logic;
+    signal start_read   : std_logic := '0';
+    signal start_write  : std_logic := '0';
+    signal stop         : std_logic := '0';
+    signal read_x       : std_logic := '0';
+
+    -- Instantiate ROMs
+    signal x_data       : std_logic_vector(7 downto 0);
+    signal y_data       : std_logic_vector(7 downto 0);
+
+    component rom is
+        generic (
+            DATA_WIDTH : integer := 8;
+            ADDR_WIDTH : integer := 4
+        );
+        port (
+            clk    : in  std_logic;
+            addr   : in  std_logic_vector(ADDR_WIDTH-1 downto 0);
+            data   : out std_logic_vector(DATA_WIDTH-1 downto 0)
+        );
+    end component;
+
+begin
+
+    -- Instantiate Xs ROM
+    rom_x_inst: rom_x
+        port map (
+            clk  => clk,
+            addr => rom_addr_x,
+            data => x_data
+        );
+
+    -- Instantiate Ys ROM
+    rom_y_inst: rom_y
+        port map (
+            clk  => clk,
+            addr => rom_addr_y,
+            data => y_data
+        );
+
+    -- Instantiate I2C module
+    i2c_inst: entity work.rdwr1
+        port map (
+            ACKSDA      => ACKSDA,
+            burstmode   => burstmode,
+            clk         => clk,
+            inSDA       => inSDA,
+            loaddata    => loaddata,
+            rst         => rst,
+            start_read  => start_read,
+            startc      => start_write,
+            stopc       => stop,
+            wdata       => wdata,
+            ASDA        => ASDA,
+            EXDATACLK   => EXDATACLK,
+            pend        => pend,
+            rdata       => rdata,
+            SCL         => SCL,
+            SDA         => SDA
+        );
+
+    -- Sequentially read X and Y data and send via I2C
+    process(clk, rst)
+    begin
+        if rst = '1' then
+            rom_addr_x <= (others => '0');
+            rom_addr_y <= (others => '0');
+            start_write <= '0';
+            start_read <= '0';
+            stop <= '0';
+            read_x <= '0';
+        elsif rising_edge(clk) then
+            if start = '1' then
+                if read_x = '0' then
+                    wdata <= x_data;
+                    start_write <= '1';
+                    read_x <= '1';
+                    if rom_addr_x = "1111" then
+                        rom_addr_x <= (others => '0');
+                    else
+                        rom_addr_x <= std_logic_vector(unsigned(rom_addr_x) + 1);
+                    end if;
+                else
+                    wdata <= y_data;
+                    start_write <= '1';
+                    read_x <= '0';
+                    if rom_addr_y = "1111" then
+                        rom_addr_y <= (others => '0');
+                    else
+                        rom_addr_y <= std_logic_vector(unsigned(rom_addr_y) + 1);
+                    end if;
+                end if;
+            else
+                start_write <= '0';
+            end if;
+        end if;
+    end process;
+
+end architecture behav;
