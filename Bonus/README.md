@@ -1,6 +1,8 @@
 # Ocsilloscope-Display
+## IIC 介绍
+[![iic 介绍](https://res.cloudinary.com/marcomontalbano/image/upload/v1719912644/video_to_markdown/images/youtube--6IAkYpmA1DQ-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=6IAkYpmA1DQ "iic 介绍")
 ## 端口介绍
-好的，这里是关于顶层实体 `controller_top` 中端口的详细介绍的Markdown文档。
+这里是关于顶层实体 `controller_top` 中端口的详细介绍的Markdown文档。
 
 ```markdown
 # 顶层实体 `controller_top` 端口详细介绍
@@ -42,7 +44,7 @@ end controller_top;
 
 4. **`start_y`**: 输入端口，启动Y数据传输的信号。当该信号为高电平时，开始传输存储在ROM中的Y数据。
 
-5. **`ACKSDA_x`**: 输入端口，X数据的ACK信号。在I2C通信中，当主设备发送一个字节数据后，从设备会在第9个时钟周期内通过拉低SDA线来应答。
+5. **`ACKSDA_x`**: 输入端口，X数据的ACK信号。连接到外部I2C从设备: 这些信号应该连接到对应外部I2C从设备的SDA线。当主设备（FPGA）发送一个字节的数据后，从设备会在第9个时钟周期内通过拉低SDA线来发送ACK信号在I2C通信中，当主设备发送一个字节数据后，从设备会在第9个时钟周期内通过拉低SDA线来应答。
 
 6. **`ACKSDA_y`**: 输入端口，Y数据的ACK信号。与`ACKSDA_x`作用相同，但用于Y数据。
 
