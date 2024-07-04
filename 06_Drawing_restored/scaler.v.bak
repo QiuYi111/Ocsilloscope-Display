@@ -1,0 +1,37 @@
+module scaler(
+	input clk50m,
+	output reg clk1m,
+	output reg clk2m
+);
+
+reg[5:0] ccr;
+reg[5:0] ccr1;
+
+always@(posedge clk50m)
+begin
+
+//if(ccr>=9)
+//	ccr<=0;
+//else
+//	ccr<=ccr+1;
+//case(ccr)
+//	5:clk5m<=0;
+//	0:clk5m<=1;
+//endcase	
+
+if(ccr>=49)
+	ccr<=0;
+else
+	ccr<=ccr+1;
+case(ccr)
+	13:clk2m<=1;
+	25:begin clk1m<=0;clk2m<=0; end
+	37:clk2m<=1;
+	0:begin clk1m<=1;clk2m<=0;end
+endcase	
+
+
+end
+
+
+endmodule

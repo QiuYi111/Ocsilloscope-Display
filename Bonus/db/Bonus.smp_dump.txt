@@ -1,0 +1,16 @@
+
+State Machine - |Bonus|controller:ctrl_inst|i2c_write:i2c_y_inst|state
+Name state.STOP state.ACK state.WRITE state.STARTs state.IDLE 
+state.IDLE 0 0 0 0 0 
+state.STARTs 0 0 0 1 1 
+state.WRITE 0 0 1 0 1 
+state.ACK 0 1 0 0 1 
+state.STOP 1 0 0 0 1 
+
+State Machine - |Bonus|controller:ctrl_inst|i2c_write:i2c_x_inst|state
+Name state.STOP state.ACK state.WRITE state.STARTs state.IDLE 
+state.IDLE 0 0 0 0 0 
+state.STARTs 0 0 0 1 1 
+state.WRITE 0 0 1 0 1 
+state.ACK 0 1 0 0 1 
+state.STOP 1 0 0 0 1 

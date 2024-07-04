@@ -1,0 +1,33 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity encoder4to4 is
+    Port ( a, b, c, d : in STD_LOGIC;
+           y : out STD_LOGIC_VECTOR(13 downto 0));
+end encoder4to4;
+
+architecture Behavioral of encoder4to4 is
+begin
+    process(a, b, c, d)
+    begin
+        case (a & b & c & d) is
+            when "0000" => y <= "0000" & (12 downto 1 => '0');
+            when "0001" => y <= "0001" & (12 downto 1 => '0');
+            when "0010" => y <= "0010" & (12 downto 1 => '0');
+            when "0011" => y <= "0011" & (12 downto 1 => '0');
+            when "0100" => y <= "0100" & (12 downto 1 => '0');
+            when "0101" => y <= "0101" & (12 downto 1 => '0');
+            when "0110" => y <= "0110" & (12 downto 1 => '0');
+            when "0111" => y <= "0111" & (12 downto 1 => '0');
+            when "1000" => y <= "1000" & (12 downto 1 => '0');
+            when "1001" => y <= "1001" & (12 downto 1 => '0');
+            when "1010" => y <= "1010" & (12 downto 1 => '0');
+            when "1011" => y <= "1011" & (12 downto 1 => '0');
+            when "1100" => y <= "1100" & (12 downto 1 => '0');
+            when "1101" => y <= "1101" & (12 downto 1 => '0');
+            when "1110" => y <= "1110" & (12 downto 1 => '0');
+            when "1111" => y <= "1111" & (12 downto 1 => '0');
+            when others => y <= "0000" & (12 downto 1 => '0'); -- 可以选择忽略或者设置为默认值
+        end case;
+    end process;
+end Behavioral;
